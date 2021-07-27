@@ -43,7 +43,7 @@ const App = () => {
         }
         
         
-    },[localStorage.getItem('profile'),dispatch]);
+    },[localStorage.getItem('profile')]);
     
     window.setTimeout(() => {
         dispatch({type: REMOVE_FLASH_MESSAGE});

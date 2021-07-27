@@ -18,6 +18,7 @@ const BASE_URL = 'http://localhost:5000/images';
 
 const Post = ({post}) => {
 
+    console.log(post.user);
     const user = useSelector(state => state.user); 
     const dispatch = useDispatch();
     console.log(user);
@@ -27,6 +28,11 @@ const Post = ({post}) => {
     const handleLikeToggle = (postid) => {
         setLike((prevLike) => !prevLike);
         dispatch(likePost(postid));
+
+        setVisible(true);
+        window.setTimeout(() => {
+            setVisible(false);
+        },1000)
     }
 
     const handleDoubleClick = (postid) => {
@@ -46,17 +52,17 @@ const Post = ({post}) => {
     console.log(post.likes.filter(like => like===String(user.authData.result._id)));
     return ( 
        
-            <div className="relative rounded-sm mx-auto bg-white border border-gray-300 box-border mt-4 w-full">
+            <div className="rounded-sm bg-white border border-gray-300 box-border mt-4 min-h-96 md:w-98">
                 <div className="px-3 pt-2 pb-2 w-full border-b border-gray-300 flex">
-                    <img className="w-12 h-12 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover" src={user.authData.result.profilepic}  />
+                    <img className="w-12 h-12 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover" src={post.user.profilepic}  />
                     <div className="text-base my-auto mx-3 font-medium">{post.creator}</div>
                 </div>
               
                 
-                <div className={(visible)?"absolute top-80 left-64 opacity-75 visible transform scale-110 transition delay-75":"absolute opacity-75 top-80 left-64 invisible"}><img src={overlayHeart} className="h-20 w-20" /></div>
+                {/* <div className={(visible)?"bg-blue-200 fixed top-1/2 left-1/2 opacity-75 visible transform scale-105 transition delay-75":"bg-blue-300 fixed opacity-75 invisible"}><div className="h-20 w-20 "><img src={overlayHeart} className="" /></div></div>  */}
                 
 
-                <img className="box-border post-image w-full object-cover" src={`${BASE_URL}/${post.image}`} onDoubleClick={() => handleDoubleClick(post._id)}  />
+                <img className="box-border w-full max-h-100 object-cover" src={`${BASE_URL}/${post.image}`} onDoubleClick={() => handleDoubleClick(post._id)}  />
                 <div className="mt-3 ml-3 pb-2 flex gap-4">
                    
                     <Like liked={like} onLikeToggle={() => handleLikeToggle(post._id)} />

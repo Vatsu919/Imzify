@@ -52,12 +52,7 @@ const Auth = () => {
         {
             dispatch(signin(formData,history));
         }
-        setFormData({
-            username: '',
-            password: '',
-            fullname: '',
-            profilepic: ''
-        })
+        
         
     }
 

@@ -20,9 +20,10 @@ const Home = () => {
         <div>
         {(posts.length===0)?(<Loading />):(
             <>
-            
             <Navbar />
+            <div className="mt-20">
             <PostList />
+            </div>
             </>
             
         )}

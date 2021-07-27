@@ -7,7 +7,7 @@ export const getPosts = async (req,res) => {
     try {
         console.log("posts mangi che");
         var mySort = {createdAt:-1};
-        const postList = await PostModel.find().sort(mySort);
+        const postList = await PostModel.find().populate('user').sort(mySort);
 
         res.status(200).json(postList);
         
@@ -26,6 +26,7 @@ export const createPost = async (req,res) => {
     console.log(req.userId);
     try {
         const user = await User.findById(req.userId);
+        post.user=user;
         post.creator = user.username;
         
     } catch (error) {
