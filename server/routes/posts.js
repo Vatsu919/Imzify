@@ -1,5 +1,5 @@
 import express from 'express';
-import {createPost, getPosts, likePost} from '../controllers/posts.js';
+import {commentPost, createPost, getPosts, likePost} from '../controllers/posts.js';
 import multer from 'multer';
 import path from 'path';
 import auth from '../middleware/auth.js';
@@ -21,5 +21,6 @@ const router = express.Router();
 router.get('/',getPosts);
 router.post('/',[auth,upload.single('image')],createPost);
 router.patch('/:id/likepost',auth,likePost);
+router.post('/:id/comment',auth,commentPost);
 
 export default router;

@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import './style.css';
 import overlayHeart from './icons/overlayHeart.svg'
-import comment from './icons/speech-bubble.svg';
+import commentImage from './icons/speech-bubble.svg';
 import send from './icons/send.svg';
 import bookmark from './icons/bookmark.svg';
 import smile from './icons/smile.svg';
@@ -9,7 +9,8 @@ import {useSelector} from 'react-redux';
 import Moment from 'react-moment';
 import Like from '../common/like';
 import {useDispatch} from 'react-redux';
-import { likePost } from '../../actions/postActions.js';
+import { commentPost, likePost } from '../../actions/postActions.js';
+import { Link } from 'react-router-dom';
 
 
 
@@ -18,14 +19,27 @@ const BASE_URL = 'http://localhost:5000/images';
 
 const Post = ({post}) => {
 
-    console.log(post.user);
+    
     const user = useSelector(state => state.user); 
     const dispatch = useDispatch();
-    console.log(user);
+
+    
+    const [comment,setComment]=useState({text:""});
     const [like,setLike] = useState(post.likes.find(like => like===String(user.authData.result._id)));
+    const [likeCount,setLikeCount] = useState(post.likes.length);
     const [visible,setVisible] = useState(false);
 
+    console.log(comment.text);
+    
     const handleLikeToggle = (postid) => {
+        if(!like)
+        {
+            setLikeCount((prevLikeCount) => prevLikeCount+1);
+        }
+        if(like)
+        {
+            setLikeCount((prevLikeCount) => prevLikeCount-1);
+        }
         setLike((prevLike) => !prevLike);
         dispatch(likePost(postid));
 
@@ -33,6 +47,11 @@ const Post = ({post}) => {
         window.setTimeout(() => {
             setVisible(false);
         },1000)
+    }
+
+    const handleComment = (postid,comment) => {
+        dispatch(commentPost(postid,comment));
+        setComment({text:""});
     }
 
     const handleDoubleClick = (postid) => {
@@ -49,7 +68,7 @@ const Post = ({post}) => {
         
     }
 
-    console.log(post.likes.filter(like => like===String(user.authData.result._id)));
+  
     return ( 
        
             <div className="rounded-sm bg-white border border-gray-300 box-border mt-4 min-h-96 md:w-98">
@@ -66,11 +85,11 @@ const Post = ({post}) => {
                 <div className="mt-3 ml-3 pb-2 flex gap-4">
                    
                     <Like liked={like} onLikeToggle={() => handleLikeToggle(post._id)} />
-                    <div><img className="h-6 w-6" src={comment} /></div>
+                    <div><Link to={"/"+post._id+"/comments"}><img className="h-6 w-6" src={commentImage} /></Link></div>
                     <div><img className="h-6 w-6" src={send} /></div>
                     <div className="ml-auto mr-3"><img className="h-6 w-6" src={bookmark} /></div>
                 </div>
-                <div className="ml-3 mb-2 font-medium text-sm">{post.likes.length} likes</div>
+                <div className="ml-3 mb-2 font-medium text-sm">{likeCount} likes</div>
                 <div className="ml-3 flex">
                     <div className="font-medium">{post.creator}</div>
                     <div className="ml-2">{post.caption} </div>
@@ -79,10 +98,11 @@ const Post = ({post}) => {
                     <Moment fromNow>{post.createdAt}</Moment>
                 </div>
                 <div className="border-t border-gray-300 border-opacity-50">
-                    <div className="mx-3 py-3 flex gap-4">
-                        <div ><img className="h-6 w-6" src={smile} /></div>
-                        <div className="text-gray-500 text-sm">Add a comment...</div>
-                        <div className="ml-auto text-blue-400 font-medium">Post</div>
+                    <div className="mx-3 py-3 flex gap-2">
+                        <div ><img className="h-8 w-8" src={smile} /></div>
+                        <input type='text' name="text" onChange={(e)=>{ setComment({text: e.target.value})}} value={comment.text} className="text-gray-500 text-sm h-8 w-full border border-gray-300" placeholder="Add a comment..." />
+                        
+                        <button onClick={()=> handleComment(post._id,comment)} className="ml-auto text-blue-400 font-medium h-8">Post</button>
                     </div>
                 
                     

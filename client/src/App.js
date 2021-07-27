@@ -12,6 +12,8 @@ import Auth from './components/Auth/Auth';
 import {useDispatch,useSelector} from 'react-redux';
 import {IS_LOGGED_IN,LOGOUT,REMOVE_FLASH_MESSAGE} from './constants/index.js';
 import FlashMessage from './components/FlashMessage/flashMessage';
+import Comment from './components/Comment/Comment';
+import { getPosts } from './actions/postActions';
 
 const App = () => {
     
@@ -41,9 +43,11 @@ const App = () => {
         {
             dispatch({type:LOGOUT});
         }
-        
+        dispatch(getPosts());
         
     },[localStorage.getItem('profile')]);
+
+    
     
     window.setTimeout(() => {
         dispatch({type: REMOVE_FLASH_MESSAGE});
@@ -63,6 +67,7 @@ const App = () => {
             <Route exact path="/" > {(user.isLoggedIn)?<Home />:<Auth />} </Route> 
             <Route exact path="/createPost" component = {PostForm} />
             <Route exact path='/auth' component = {Auth} />
+            <Route exact path='/:postid/comments' children={<Comment />} />
             </Switch>
         </Router>
         

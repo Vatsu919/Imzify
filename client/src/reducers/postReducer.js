@@ -1,4 +1,4 @@
-import {FETCH_ALL,CREATE_POST,LIKE_POST} from '../constants/index.js';
+import {FETCH_ALL,CREATE_POST,LIKE_POST, COMMENT_POST} from '../constants/index.js';
 
 const postReducer = (state = [],action) => {
     switch(action.type)
@@ -12,6 +12,10 @@ const postReducer = (state = [],action) => {
 
         case LIKE_POST:
             return state.map(post => (post._id===action.payload._id) ? action.payload : post);
+
+        case COMMENT_POST:
+            console.log(action.payload);
+            return state.map(post => (post._id===action.payload._id)? action.payload:post);
         
         default:
             return state;
