@@ -8,7 +8,7 @@ export const getPosts = async (req,res) => {
     try {
         console.log("posts mangi che");
         var mySort = {createdAt:-1};
-        const postList = await PostModel.find().populate('user').populate('comments').sort(mySort);
+        const postList = await PostModel.find().populate('user').populate({path:'comments',populate:{path:'user'}}).sort(mySort);
         console.log(postList);
         
 
@@ -92,7 +92,7 @@ export const commentPost = async (req,res) => {
         console.log(error);
     }
     post.comments.push(comment);
-    const updatedPost=await PostModel.findByIdAndUpdate(id,post,{new:true}).populate('user').populate('comments');
+    const updatedPost=await PostModel.findByIdAndUpdate(id,post,{new:true}).populate('user').populate({path:'comments',populate:{path:'user'}});
     
     //updatedPost.populate('user').populate('comments');
     console.log("updatedPost",updatedPost);
