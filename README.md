@@ -15,11 +15,11 @@
 
 ## Some snapshots of the webapp:
 ### Sign in page:
-![An image](./assets/img2.png)
+![An image](./assets/Img1.png)
 
 ### Home Page:
-![An image](./assets/img1.png)
+![An image](./assets/Img3.png)
 
 ### User Profile page:
-![An image](./assets/img3.png)
+![An image](./assets/Img2.png)
 
