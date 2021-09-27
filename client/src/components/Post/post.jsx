@@ -9,8 +9,10 @@ import {useSelector} from 'react-redux';
 import Moment from 'react-moment';
 import Like from '../common/like';
 import {useDispatch} from 'react-redux';
-import { commentPost, likePost } from '../../actions/postActions.js';
+import { commentPost, likePost,getPost, getSelectedUserPosts } from '../../actions/postActions.js';
 import { Link } from 'react-router-dom';
+import { CANCEL_FETCH, CLEAR_SELECTEDUSER_POSTS, DESELECT_USER } from '../../constants';
+
 
 
 
@@ -72,11 +74,14 @@ const Post = ({post}) => {
     return ( 
        
             <div className="rounded-sm bg-white border border-gray-300 box-border mt-4 min-h-96 md:w-98">
+                <Link onClick={()=> {dispatch({type:CLEAR_SELECTEDUSER_POSTS});dispatch({type:DESELECT_USER});dispatch(getSelectedUserPosts(post.user._id,post.user))}} to={"/"+post.user._id+"/"}>
                 <div className="px-3 pt-2 pb-2 w-full border-b border-gray-300 flex">
+                    
                     <img className="w-12 h-12 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover" src={post.user.profilepic}  />
                     <div className="text-base my-auto mx-3 font-medium">{post.creator}</div>
+                   
                 </div>
-              
+                </Link>
                 
                 {/* <div className={(visible)?"bg-blue-200 fixed top-1/2 left-1/2 opacity-75 visible transform scale-105 transition delay-75":"bg-blue-300 fixed opacity-75 invisible"}><div className="h-20 w-20 "><img src={overlayHeart} className="" /></div></div>  */}
                 
@@ -102,7 +107,7 @@ const Post = ({post}) => {
                         <div ><img className="h-8 w-8" src={smile} /></div>
                         <input type='text' name="text" onChange={(e)=>{ setComment({text: e.target.value})}} value={comment.text} className="text-gray-500 text-sm h-8 w-full border border-gray-300" placeholder="Add a comment..." />
                         
-                        <button onClick={()=> handleComment(post._id,comment)} className="ml-auto text-blue-400 font-medium h-8">Post</button>
+                        <button onClick={()=> handleComment(post._id,comment)} className="ml-auto text-blue-500 hover:text-blue-600 font-medium h-8">Post</button>
                     </div>
                 
                     

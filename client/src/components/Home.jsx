@@ -12,9 +12,9 @@ const Home = () => {
     const dispatch = useDispatch();
     const posts = useSelector(state => state.posts);
 
-    useEffect(() => {
-        dispatch(getPosts());
-    },[dispatch]);
+    // useEffect(() => {
+    //     dispatch(getPosts());
+    // },[posts.length]);
     
     return ( 
         <div>

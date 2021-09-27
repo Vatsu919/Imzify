@@ -14,12 +14,13 @@ import {IS_LOGGED_IN,LOGOUT,REMOVE_FLASH_MESSAGE} from './constants/index.js';
 import FlashMessage from './components/FlashMessage/flashMessage';
 import Comment from './components/Comment/Comment';
 import { getPosts } from './actions/postActions';
+import UserProfile from './components/UserProfile/UserProfile';
 
 const App = () => {
     
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
-
+    const status = useSelector(state => state.poststatus);
    
     useEffect(() => {
         
@@ -37,16 +38,22 @@ const App = () => {
                     dispatch({type: LOGOUT});
                 }
             }
-            
+            dispatch(getPosts());
         }
         else
         {
             dispatch({type:LOGOUT});
         }
-        dispatch(getPosts());
+        
         
     },[localStorage.getItem('profile')]);
 
+    useEffect(()=> {
+        if(status==='IDLE' && user.isLoggedIn)
+        {
+            dispatch(getPosts());
+        }
+    },[status])
     
     
     window.setTimeout(() => {
@@ -68,6 +75,7 @@ const App = () => {
             <Route exact path="/createPost" component = {PostForm} />
             <Route exact path='/auth' component = {Auth} />
             <Route exact path='/:postid/comments' children={<Comment />} />
+            <Route exact path='/:selecteduserid' children={<UserProfile />} />
             </Switch>
         </Router>
         

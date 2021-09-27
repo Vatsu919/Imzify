@@ -8,7 +8,7 @@ const postReducer = (state = [],action) => {
             return action.payload;
         
         case CREATE_POST:
-            return [...state,action.payload];
+            return [action.payload,...state];
 
         case LIKE_POST:
             return state.map(post => (post._id===action.payload._id) ? action.payload : post);

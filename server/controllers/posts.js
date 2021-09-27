@@ -6,16 +6,41 @@ import Comment from '../models/commentModel.js';
 
 export const getPosts = async (req,res) => {
     try {
-        console.log("posts mangi che");
+        //console.log("posts mangi che");
         var mySort = {createdAt:-1};
-        const postList = await PostModel.find().populate('user').populate({path:'comments',populate:{path:'user'}}).sort(mySort);
-        console.log(postList);
+        const postList = await PostModel.find().populate('user').sort(mySort);
+        //console.log(postList);
         
 
         res.status(200).json(postList);
         
        
 
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+}
+
+export const getUserPosts = async (req,res) => {
+    try {
+        const {userid} = req.params; 
+        var mySort = {createdAt:-1};
+        const postList = await PostModel.find({user: userid}).populate('user').sort(mySort);
+
+        res.status(200).json(postList);
+    }
+    catch(error)
+    {
+        res.status(404).json({message:error.message});
+    }
+}
+export const getPost = async (req,res) => {
+    const {id}=req.params;
+    console.log("In getPost: ",id);
+    try {
+        const Post = await PostModel.findById(id).populate('user').populate({path:'comments',populate: {path:'user'}});
+        console.log(Post);
+        res.status(200).json(Post);
     } catch (error) {
         res.status(404).json({message:error.message});
     }

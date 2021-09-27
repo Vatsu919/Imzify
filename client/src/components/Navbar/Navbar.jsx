@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 import {useSelector} from 'react-redux';
 import {useDispatch } from 'react-redux';
-import {FLASH_MESSAGE, LOGOUT} from '../../constants/index.js';
+import {FLASH_MESSAGE, IDLE, LOGOUT} from '../../constants/index.js';
 
 const Navbar = () => {
     const user = useSelector(state => state.user);
@@ -10,6 +10,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch({type:FLASH_MESSAGE,payload:{message:'Successfully Logged out',mtype:'success'}});
+        dispatch({type:IDLE});
         dispatch({type:LOGOUT});
     }
 
