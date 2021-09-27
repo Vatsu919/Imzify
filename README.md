@@ -14,3 +14,12 @@
 4. Comment functionality for post
 
 ## Some snapshots of the webapp:
+### Sign in page:
+![An image](./assets/img2.png)
+
+### Home Page:
+![An image](./assets/img1.png)
+
+### User Profile page:
+![An image](./assets/img3.png)
+
