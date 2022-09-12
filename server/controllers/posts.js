@@ -46,6 +46,17 @@ export const getPost = async (req,res) => {
     }
 }
 
+export const removePost = async (req,res) => {
+    const {id} = req.params;
+
+    try{
+        const result = await PostModel.findByIdAndDelete(id);
+        res.status(200).json({message:"successfully deleted"});
+
+    }catch (error) {
+        console.log(error);
+    }
+}
 export const createPost = async (req,res) => {
     const post = req.body;
     
@@ -122,5 +133,31 @@ export const commentPost = async (req,res) => {
     //updatedPost.populate('user').populate('comments');
     console.log("updatedPost",updatedPost);
     res.json(updatedPost);
+
+}
+
+export const toggleSavedPosts = async (req,res) => {
+    const id = req.userId;
+    const post = req.body;
+
+    try{
+        const user = await User.findById(id).populate('savedPosts');
+
+        const index = user.savedPosts.find(spost => spost._id===post._id);
+
+        if(index==-1)
+        {
+            user.savedPosts.push(post);
+        }
+        else
+        {
+            user.savedPosts = user.savedPosts.filter(spost => spost._id!==post._id);
+        }
+        const nuser = await User.findByIdAndUpdate(id,user,{new: true}).populate('savedPosts');
+        res.status(200).json(nuser);
+    }catch(err)
+    {
+        console.log(err);
+    }
 
 }

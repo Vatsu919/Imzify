@@ -1,4 +1,4 @@
-import { CLEAR_SELECTEDUSER_POSTS, FETCH_SELECTEDUSER_POSTS } from "../constants";
+import { CLEAR_SELECTEDUSER_POSTS, FETCH_SELECTEDUSER_POSTS, REMOVE_SELECTEDUSER_POST } from "../constants";
 
 const selecteduserpostsReducer = (state = [],action) => {
     switch(action.type){
@@ -8,6 +8,9 @@ const selecteduserpostsReducer = (state = [],action) => {
         case CLEAR_SELECTEDUSER_POSTS:
             return [];
         
+        case REMOVE_SELECTEDUSER_POST:
+            return state.filter(post => post._id!==action.payload);
+
         default:
             return state;
     }

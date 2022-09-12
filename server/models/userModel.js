@@ -13,7 +13,13 @@ const userSchema = mongoose.Schema({
     password: {
         type:String,
         required: true,
+    },
+    savedPosts: {
+        type: [mongoose.Schema.Types.ObjectId],
+        reference: 'PostModel',
+        default: []
     }
+
 })
 
 const User = mongoose.model('User',userSchema);

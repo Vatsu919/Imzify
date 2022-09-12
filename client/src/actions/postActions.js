@@ -1,7 +1,7 @@
 
 
 import * as api from '../api';
-import {FETCH_ALL,CREATE_POST, FLASH_MESSAGE, LIKE_POST, LOGOUT, COMMENT_POST, FETCH_ONE, SUCCEEDED, UPDATED, FETCH_SELECTEDUSER_POSTS, DESELECT_USER, SELECT_USER, CLEAR_SELECTEDUSER_POSTS} from '../constants/index.js';
+import {FETCH_ALL,CREATE_POST, FLASH_MESSAGE, LIKE_POST, LOGOUT, COMMENT_POST, FETCH_ONE, SUCCEEDED, UPDATED, FETCH_SELECTEDUSER_POSTS, DESELECT_USER, SELECT_USER, CLEAR_SELECTEDUSER_POSTS, REMOVE_SELECTEDUSER_POST, REMOVE_POST} from '../constants/index.js';
 
 export const getPosts =  () => async (dispatch) => {
     try {
@@ -14,6 +14,18 @@ export const getPosts =  () => async (dispatch) => {
     }
     
     
+}
+
+export const removePost = (id) => async (dispatch) => {
+    try{
+        console.log("inside removePost: ",id);
+        const result = await api.removePost(id);
+        console.log("svfdvdfvdfvdf");
+        dispatch({type:REMOVE_SELECTEDUSER_POST,payload:id});
+        dispatch({type:REMOVE_POST,payload:id});
+    }catch(error) {
+        console.log(error);
+    }
 }
 
 export const getSelectedUserPosts = (userid,user) => async (dispatch) => {
