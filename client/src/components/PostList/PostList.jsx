@@ -20,13 +20,13 @@ const PostList = () => {
         
         <div className="hidden h-0 w-0 lg:block lg:w-4/12 lg:sticky lg:top-14 lg:flex-1 lg:self-start">
             <div className="flex">
-            <img className="w-16 h-16 mt-4 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover my-auto ml-6 ring ring-white" src={user.authData.result.profilepic} />
+            <img className="w-16 h-16 mt-4 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover my-auto ml-6 ring ring-white" src={user?.authData?.result?.profilepic} />
             <div className="flex-col justify-around mt-6 ml-3">
                 <div className="font-medium">
-                    {user.authData.result.username}
+                    {user?.authData?.result?.username}
                 </div>
                 <div className="text-sm text-gray-500 text-opacity-75">
-                    {user.authData.result.fullname}
+                    {user?.authData?.result?.fullname}
                 </div>
             </div>
             </div>

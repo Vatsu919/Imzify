@@ -2,6 +2,7 @@ import Mongoose  from 'mongoose';
 import PostModel from '../models/postModel.js';
 import User from '../models/userModel.js';
 import Comment from '../models/commentModel.js';
+import SavedPostsModel from '../models/savedPostsModel.js';
 
 
 export const getPosts = async (req,res) => {
@@ -136,25 +137,62 @@ export const commentPost = async (req,res) => {
 
 }
 
-export const toggleSavedPosts = async (req,res) => {
+export const getSavedPosts = async (req,res) => {
     const id = req.userId;
-    const post = req.body;
-
+    const userInstance = Mongoose.Types.ObjectId(id);
+    
+    // console.log(id);
     try{
-        const user = await User.findById(id).populate('savedPosts');
-
-        const index = user.savedPosts.find(spost => spost._id===post._id);
-
-        if(index==-1)
+        const result = await SavedPostsModel.findOne({user:userInstance}).populate({path:'savedposts',populate:{path:'user',model: 'User'}});
+        
+        // console.log("resulttt ",result);
+        if(result)
         {
-            user.savedPosts.push(post);
+            res.status(200).json(result.savedposts);
         }
         else
         {
-            user.savedPosts = user.savedPosts.filter(spost => spost._id!==post._id);
+            res.status(200).json([]);
         }
-        const nuser = await User.findByIdAndUpdate(id,user,{new: true}).populate('savedPosts');
-        res.status(200).json(nuser);
+    }catch(err)
+    {
+        console.log(err);
+    }
+}
+
+export const toggleSavedPosts = async (req,res) => {
+    const id = req.userId;
+    const post = req.body;
+    const userInstance = Mongoose.Types.ObjectId(id);
+    const postInstance = Mongoose.Types.ObjectId(post._id)
+    try{
+
+        var result = await SavedPostsModel.findOne({user: userInstance}).populate('savedposts');
+        
+        if(result)
+        {
+            console.log(result.savedposts);
+            
+            const index = result.savedposts.findIndex(spost => String(spost._id)===String(post._id));
+            console.log("index : ",index);
+            if(index!==-1)
+            {
+                result.savedposts = result.savedposts.filter(spost => String(spost._id)!==String(post._id));
+            }
+            else
+            {
+                result.savedposts.push(post);
+            }
+        }
+        else
+        {
+            result = await SavedPostsModel.create({user: userInstance});
+            result.savedposts.push(post);
+        }
+        const final = await SavedPostsModel.findByIdAndUpdate(result._id,result,{new:true});
+       // console.log(final)
+        res.status(200).json({message: "Successfully toggled save post",result: final});
+        
     }catch(err)
     {
         console.log(err);

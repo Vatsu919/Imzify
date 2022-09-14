@@ -9,8 +9,9 @@ import {useSelector} from 'react-redux';
 import Moment from 'react-moment';
 import Like from '../common/like';
 import threeDot from './icons/threedot.svg';
+import filledBookmark from './icons/bookmark-fill.svg';
 import {useDispatch} from 'react-redux';
-import { commentPost, likePost,getPost, getSelectedUserPosts, removePost } from '../../actions/postActions.js';
+import { commentPost, likePost,getPost, getSelectedUserPosts, removePost, toggleSavedPosts } from '../../actions/postActions.js';
 import { Link } from 'react-router-dom';
 import { CANCEL_FETCH, CLEAR_SELECTEDUSER_POSTS, DESELECT_USER } from '../../constants';
 
@@ -25,6 +26,7 @@ const Post = ({post}) => {
 
     
     const user = useSelector(state => state.user); 
+    const savedPosts = useSelector(state => state.savedposts);
     const dispatch = useDispatch();
 
     const [popup, setPopup] = useState(false);
@@ -32,6 +34,7 @@ const Post = ({post}) => {
     const [like,setLike] = useState(post.likes.find(like => like===String(user.authData.result._id)));
     const [likeCount,setLikeCount] = useState(post.likes.length);
     const [visible,setVisible] = useState(false);
+    const [isSaved, setIsSaved] = useState(savedPosts.find(spost => spost._id===post._id));
 
     console.log(comment.text);
     
@@ -71,8 +74,12 @@ const Post = ({post}) => {
         },1000)
         
     }
-    console.log("post:  ",post.user._id);
-    console.log("Userrr: ",user.authData.result._id);
+
+    const handleSaveToggle = () => {
+        dispatch(toggleSavedPosts(post,isSaved));
+        setIsSaved(!isSaved);
+    }
+    
     return ( 
        
             <div className="rounded-sm bg-white border border-gray-300 box-border mt-4 min-h-96 md:w-98">
@@ -101,7 +108,7 @@ const Post = ({post}) => {
                     <Like liked={like} onLikeToggle={() => handleLikeToggle(post._id)} />
                     <div><Link to={"/"+post._id+"/comments"}><img className="h-6 w-6" src={commentImage} /></Link></div>
                     <div><img className="h-6 w-6" src={send} /></div>
-                    <div className="ml-auto mr-3"><img className="h-6 w-6" src={bookmark} /></div>
+                    <div className="ml-auto mr-3"><img className={isSaved ? "h-6 w-6 cursor-pointer transform scale-110 transition delay-100": "h-6 w-6 cursor-pointer transition delay-100"} onClick={handleSaveToggle} src={(isSaved) ? filledBookmark:bookmark} /></div>
                 </div>
                 <div className="ml-3 mb-2 font-medium text-sm">{likeCount} likes</div>
                 <div className="ml-3 flex">

@@ -1,5 +1,5 @@
 import express from 'express';
-import {commentPost, createPost, getPost, getPosts, getUserPosts, likePost, removePost, toggleSavedPosts} from '../controllers/posts.js';
+import {commentPost, createPost, getPost, getPosts, getSavedPosts, getUserPosts, likePost, removePost, toggleSavedPosts} from '../controllers/posts.js';
 import multer from 'multer';
 import path from 'path';
 import auth from '../middleware/auth.js';
@@ -19,6 +19,7 @@ var upload = multer({storage:storage})
 const router = express.Router();
 
 router.get('/',getPosts);
+router.get('/getsavedposts',auth,getSavedPosts);
 router.get('/:userid/userPosts',getUserPosts);
 router.get('/:id',getPost);
 router.delete('/:id',removePost);
@@ -26,5 +27,6 @@ router.post('/',[auth,upload.single('image')],createPost);
 router.patch('/:id/likepost',auth,likePost);
 router.post('/:id/comment',auth,commentPost);
 router.post('/togglesavedposts',auth,toggleSavedPosts);
+
 
 export default router;
