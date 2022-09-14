@@ -30,7 +30,7 @@ const Comment = () => {
                 <Navbar />
                 <div className="bg-white mt-20 w-11/12 md:w-9/12 xl:w-6/12 mx-auto flex">
                     <div className="w-8/12">
-                        <img className="h-100 box-border object-cover" src={`${BASE_URL}/${post.image}`} />
+                        <img className="max-h-100 box-border object-cover" src={`${BASE_URL}/${post.image}`} />
                     </div>
 
                     <div className="overflow-y-auto h-100">
