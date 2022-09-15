@@ -1,19 +1,21 @@
 import React,{useState} from 'react';
 import './style.css';
-import overlayHeart from './icons/overlayHeart.svg'
+// import overlayHeart from './icons/overlayHeart.svg/'
 import commentImage from './icons/speech-bubble.svg';
 import send from './icons/send.svg';
 import bookmark from './icons/bookmark.svg';
-import smile from './icons/smile.svg';
+// import smile from './icons/smile.svg';
 import {useSelector} from 'react-redux';
 import Moment from 'react-moment';
 import Like from '../common/like';
 import threeDot from './icons/threedot.svg';
 import filledBookmark from './icons/bookmark-fill.svg';
 import {useDispatch} from 'react-redux';
-import { commentPost, likePost,getPost, getSelectedUserPosts, removePost, toggleSavedPosts } from '../../actions/postActions.js';
+import { commentPost, likePost, getSelectedUserPosts, removePost, toggleSavedPosts } from '../../actions/postActions.js';
 import { Link } from 'react-router-dom';
-import { CANCEL_FETCH, CLEAR_SELECTEDUSER_POSTS, DESELECT_USER } from '../../constants';
+import { CLEAR_SELECTEDUSER_POSTS, DESELECT_USER } from '../../constants';
+import { useEffect } from 'react';
+import InputEmoji from 'react-input-emoji';
 
 
 
@@ -33,11 +35,13 @@ const Post = ({post}) => {
     const [comment,setComment]=useState({text:""});
     const [like,setLike] = useState(post.likes.find(like => like===String(user.authData.result._id)));
     const [likeCount,setLikeCount] = useState(post.likes.length);
-    const [visible,setVisible] = useState(false);
-    const [isSaved, setIsSaved] = useState(savedPosts.find(spost => spost._id===post._id));
-
+    // const [visible,setVisible] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
+    console.log("Saved posts: ",savedPosts);
     console.log(comment.text);
-    
+    useEffect(() => {
+        setIsSaved(savedPosts.find(spost => spost._id===post._id));
+    },[savedPosts])
     const handleLikeToggle = (postid) => {
         if(!like)
         {
@@ -50,10 +54,10 @@ const Post = ({post}) => {
         setLike((prevLike) => !prevLike);
         dispatch(likePost(postid));
 
-        setVisible(true);
-        window.setTimeout(() => {
-            setVisible(false);
-        },1000)
+        // setVisible(true);
+        // window.setTimeout(() => {
+        //     setVisible(false);
+        // },1000)
     }
 
     const handleComment = (postid,comment) => {
@@ -68,10 +72,10 @@ const Post = ({post}) => {
             dispatch(likePost(postid));
         }
 
-        setVisible(true);
-        window.setTimeout(() => {
-            setVisible(false);
-        },1000)
+        // setVisible(true);
+        // window.setTimeout(() => {
+        //     setVisible(false);
+        // },1000)
         
     }
 
@@ -86,11 +90,11 @@ const Post = ({post}) => {
                 
                 <div className="px-3 pt-2 pb-2 w-full border-b border-gray-300 flex">
                 <Link className='flex' onClick={()=> {dispatch({type:CLEAR_SELECTEDUSER_POSTS});dispatch({type:DESELECT_USER});dispatch(getSelectedUserPosts(post.user._id,post.user))}} to={"/"+post.user._id+"/"}>
-                    <img className="w-12 h-12 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover" src={post.user.profilepic}  />
+                    <img alt="dp" className="w-12 h-12 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover" src={post.user.profilepic}  />
                     <div className="text-base my-auto mx-3 font-medium">{post.creator}</div>
                 </Link>
                 {(user?.authData.result._id===post.user._id) &&   
-                <div className='ml-auto mt-3'><img className='h-6 w-6 cursor-pointer' onClick={() => setPopup(!popup)} src={threeDot} />
+                <div className='ml-auto mt-3'><img alt="popup" className='h-6 w-6 cursor-pointer' onClick={() => setPopup(!popup)} src={threeDot} />
                 {popup && 
                     <div className='absolute bg-white flex-col border border-gray-200 border-opacity-50 shadow-sm p-2 z-50 w-auto'>
                     <div className='border-bottom border-gray-200 border-opacity-50 shadow-sm cursor-pointer' onClick={()=> dispatch(removePost(post._id))}>Delete</div>
@@ -102,13 +106,13 @@ const Post = ({post}) => {
                 {/* <div className={(visible)?"bg-blue-200 fixed top-1/2 left-1/2 opacity-75 visible transform scale-105 transition delay-75":"bg-blue-300 fixed opacity-75 invisible"}><div className="h-20 w-20 "><img src={overlayHeart} className="" /></div></div>  */}
                 
 
-                <img className="box-border w-full max-h-100 object-cover" src={`${BASE_URL}/${post.image}`} onDoubleClick={() => handleDoubleClick(post._id)}  />
+                <img alt="post pic" className="box-border w-full max-h-100 object-cover" src={`${BASE_URL}/${post.image}`} onDoubleClick={() => handleDoubleClick(post._id)}  />
                 <div className="mt-3 ml-3 pb-2 flex gap-4">
                    
                     <Like liked={like} onLikeToggle={() => handleLikeToggle(post._id)} />
-                    <div><Link to={"/"+post._id+"/comments"}><img className="h-6 w-6" src={commentImage} /></Link></div>
-                    <div><img className="h-6 w-6" src={send} /></div>
-                    <div className="ml-auto mr-3"><img className={isSaved ? "h-6 w-6 cursor-pointer transform scale-110 transition delay-100": "h-6 w-6 cursor-pointer transition delay-100"} onClick={handleSaveToggle} src={(isSaved) ? filledBookmark:bookmark} /></div>
+                    <div><Link to={"/"+post._id+"/comments"}><img alt="comment" className="h-6 w-6" src={commentImage} /></Link></div>
+                    <div><img alt="send" className="h-6 w-6" src={send} /></div>
+                    <div className="ml-auto mr-3"><img alt="saved" className={isSaved ? "h-6 w-6 cursor-pointer transform scale-110 transition delay-100": "h-6 w-6 cursor-pointer transition delay-100"} onClick={handleSaveToggle} src={(isSaved) ? filledBookmark:bookmark} /></div>
                 </div>
                 <div className="ml-3 mb-2 font-medium text-sm">{likeCount} likes</div>
                 <div className="ml-3 flex">
@@ -120,10 +124,10 @@ const Post = ({post}) => {
                 </div>
                 <div className="border-t border-gray-300 border-opacity-50">
                     <div className="mx-3 py-3 flex gap-2">
-                        <div ><img className="h-8 w-8" src={smile} /></div>
-                        <input type='text' name="text" onChange={(e)=>{ setComment({text: e.target.value})}} value={comment.text} className="text-gray-500 text-sm h-8 w-full border border-gray-300" placeholder="Add a comment..." />
-                        
-                        <button onClick={()=> handleComment(post._id,comment)} className="ml-auto text-blue-500 hover:text-blue-600 font-medium h-8">Post</button>
+                        {/* <div ><img className="h-8 w-8" src={smile} /></div> */}
+                        {/* <input type='text' name="text" onChange={(e)=>{ setComment({text: e.target.value})}} value={comment.text} className="text-gray-500 text-sm h-8 w-full border border-gray-300" placeholder="Add a comment..." /> */}
+                        <InputEmoji value={comment.text} onChange={(text)=>{console.log(text);setComment({text})}} name="text" /> 
+                        <button onClick={()=> handleComment(post._id,comment)} className="ml-auto mt-2 text-blue-500 hover:text-blue-600 font-medium h-8">Post</button>
                     </div>
                 
                     

@@ -1,10 +1,11 @@
 import React from 'react';
 
 const SingleComment = ({comment}) => {
+    
     return (  
         <div className="flex gap-2 py-3 mx-3">
             <div className="">
-                <img className="h-14 w-14 rounded-full border border-gray-100 shadow-sm" src={comment.user.profilepic} />
+                <img alt="dp" className="h-14 w-14 rounded-full border border-gray-100 shadow-sm" src={comment.user.profilepic} />
 
             </div>
             <div className="">

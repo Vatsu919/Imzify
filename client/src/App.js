@@ -1,10 +1,9 @@
-import {React,useEffect,useState} from 'react';
+import {React,useEffect} from 'react';
 import PostForm from './components/PostForm/postForm';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
+    Route
   } from "react-router-dom";
 import decode from 'jwt-decode';
 import Home from './components/Home';
@@ -49,7 +48,6 @@ const App = () => {
         
         
     },[localStorage.getItem('profile')]);
-
     useEffect(()=> {
         if(status==='IDLE' && user.isLoggedIn)
         {
