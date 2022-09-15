@@ -5,7 +5,7 @@ const Loading = () => {
     return ( 
         <h1>
             <div className="h-16 w-16 mx-auto mt-96">
-                <img src={instagram} />
+                <img alt="logo" src={instagram} />
             </div>
         </h1>
      );

@@ -29,3 +29,6 @@ export const commentPost = (id,comment) => API.post(`/posts/${id}/comment`,comme
 
 export const signin = (formData) => API.post("/auth/signin",formData);
 export const signup = (formData) => API.post('/auth/signup',formData);
+
+export const getSavedPosts = () => API.get("/posts/getsavedposts");
+export const toggleSavedPosts = (post) => API.post(`/posts/togglesavedposts`,post);

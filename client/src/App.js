@@ -1,10 +1,9 @@
-import {React,useEffect,useState} from 'react';
+import {React,useEffect} from 'react';
 import PostForm from './components/PostForm/postForm';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
+    Route
   } from "react-router-dom";
 import decode from 'jwt-decode';
 import Home from './components/Home';
@@ -13,8 +12,9 @@ import {useDispatch,useSelector} from 'react-redux';
 import {IS_LOGGED_IN,LOGOUT,REMOVE_FLASH_MESSAGE} from './constants/index.js';
 import FlashMessage from './components/FlashMessage/flashMessage';
 import Comment from './components/Comment/Comment';
-import { getPosts } from './actions/postActions';
+import { getPosts, getSavedPosts } from './actions/postActions';
 import UserProfile from './components/UserProfile/UserProfile';
+import SavedPostList from './components/PostList/SavedPostList';
 
 const App = () => {
     
@@ -39,6 +39,7 @@ const App = () => {
                 }
             }
             dispatch(getPosts());
+            dispatch(getSavedPosts());
         }
         else
         {
@@ -47,7 +48,6 @@ const App = () => {
         
         
     },[localStorage.getItem('profile')]);
-
     useEffect(()=> {
         if(status==='IDLE' && user.isLoggedIn)
         {
@@ -63,7 +63,7 @@ const App = () => {
         dispatch({type:LOGOUT});
     }
 
-    
+    console.log("Userr" ,user);
     console.log("App ma");
     return ( 
         <>
@@ -74,8 +74,10 @@ const App = () => {
             <Route exact path="/" > {(user.isLoggedIn)?<Home />:<Auth />} </Route> 
             <Route exact path="/createPost" component = {PostForm} />
             <Route exact path='/auth' component = {Auth} />
+            <Route exact path='/savedposts' children={<SavedPostList /> } />
             <Route exact path='/:postid/comments' children={<Comment />} />
             <Route exact path='/:selecteduserid' children={<UserProfile />} />
+            
             </Switch>
         </Router>
         

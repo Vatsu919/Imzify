@@ -1,7 +1,7 @@
 
 
 import * as api from '../api';
-import {FETCH_ALL,CREATE_POST, FLASH_MESSAGE, LIKE_POST, LOGOUT, COMMENT_POST, FETCH_ONE, SUCCEEDED, UPDATED, FETCH_SELECTEDUSER_POSTS, DESELECT_USER, SELECT_USER, CLEAR_SELECTEDUSER_POSTS, REMOVE_SELECTEDUSER_POST, REMOVE_POST} from '../constants/index.js';
+import {FETCH_ALL,CREATE_POST, FLASH_MESSAGE, LIKE_POST, LOGOUT, COMMENT_POST, FETCH_ONE, SUCCEEDED, UPDATED, FETCH_SELECTEDUSER_POSTS, DESELECT_USER, SELECT_USER, CLEAR_SELECTEDUSER_POSTS, REMOVE_SELECTEDUSER_POST, REMOVE_POST, GET_SAVED_POSTS, REMOVE_FROM_SAVED_POSTS, ADD_TO_SAVED_POSTS} from '../constants/index.js';
 
 export const getPosts =  () => async (dispatch) => {
     try {
@@ -90,3 +90,35 @@ export const commentPost = (id,comment) => async (dispatch) => {
     }
 }
 
+export const getSavedPosts = () => async (dispatch) => {
+    try{
+        
+        const {data} = await api.getSavedPosts();
+        console.log("saved Posts: ",data);
+        data.reverse();
+        dispatch({type: GET_SAVED_POSTS,payload: data});
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+}
+
+export const toggleSavedPosts = (post,isPresent) => async (dispatch) => {
+    try{
+
+        const {data} = await api.toggleSavedPosts(post);
+
+        if(isPresent)
+        {
+            dispatch({type:REMOVE_FROM_SAVED_POSTS,payload: post});
+        }
+        else
+        {
+            dispatch({type:ADD_TO_SAVED_POSTS,payload: post});
+        }
+    }catch(err)
+    {
+        console.log(err);
+    }
+}

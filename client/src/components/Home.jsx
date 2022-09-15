@@ -1,6 +1,4 @@
-import React,{useEffect} from 'react';
-import {useDispatch,useSelector} from 'react-redux';
-import { getPosts } from '../actions/postActions.js';
+import {useSelector} from 'react-redux';
 import Loading from './Loading/loading.jsx';
 import Navbar from './Navbar/Navbar';
 import PostList from './PostList/PostList';
@@ -9,7 +7,7 @@ import PostList from './PostList/PostList';
 const Home = () => {
 
     
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const posts = useSelector(state => state.posts);
 
     // useEffect(() => {

@@ -15,7 +15,7 @@ const UserProfile = () => {
                 <Navbar />
                 <div className="mt-20 flex flex-col w-full md:w-9/12 xl:w-6/12 mx-auto z-0">
                     <div className="flex">
-                    <img className="w-24 h-24 mt-4 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover my-auto ml-6 ring ring-white" src={selectedUser.profilepic} />
+                    <img alt="dp" className="w-24 h-24 mt-4 rounded-full border border-gray-300 border-opacity-50 shadow-sm object-cover my-auto ml-6 ring ring-white" src={selectedUser.profilepic} />
                     <div className="flex flex-col justify-center mt-6 ml-3">
                         <div className="text-2xl font-medium">
                             {selectedUser.username}

@@ -6,6 +6,7 @@ import post from './currentpostReducer.js';
 import poststatus from './poststatusReducer.js';
 import selecteduserposts from './selecteduserpostsReducer.js';
 import selecteduser from './selecteduserReducer';
+import savedposts from './savedpostsReducer.js';
 
 export default combineReducers({
     posts,
@@ -14,5 +15,6 @@ export default combineReducers({
     post,
     poststatus,
     selecteduser,
-    selecteduserposts
+    selecteduserposts,
+    savedposts
 });

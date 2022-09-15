@@ -1,6 +1,6 @@
 import {FLASH_MESSAGE, REMOVE_FLASH_MESSAGE} from '../constants/index.js';
 
-export default (state = {message:null,mtype:null},action ) => {
+const flashMessageReducer =  (state = {message:null,mtype:null},action ) => {
     switch(action.type)
     {
         case FLASH_MESSAGE:
@@ -14,4 +14,5 @@ export default (state = {message:null,mtype:null},action ) => {
             
     }
 
-} 
+} ;
+export default flashMessageReducer;
