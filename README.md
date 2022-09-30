@@ -27,5 +27,5 @@
 ![An image](./assets/Img2.png)
 
 ## Mobile view:
-![An image](./assets/Screenshot 2022-09-30 123843.png)
+![An image](./assets/Img4.png)
 
