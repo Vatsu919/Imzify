@@ -21,11 +21,14 @@
 ![An image](./assets/Img1.png)
 
 ### Home Page:
-![An image](./assets/Img3.png)
+![An image](./assets/nimg1.png)
 
 ### User Profile page:
-![An image](./assets/Img2.png)
+![An image](./assets/profilepage.png)
 
 ## Mobile view:
-![An image](./assets/Screenshot 2022-09-30 123843.png)
+![An image](./assets/mview.png)
+
+## Saved Posts
+![An image](./assets/savedposts.png)
 
