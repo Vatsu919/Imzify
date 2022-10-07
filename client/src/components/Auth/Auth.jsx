@@ -107,7 +107,7 @@ const Auth = () => {
         <>
        
         <div className="h-auto max-w-md mx-auto mt-32 rounded-sm border border-gray-300 border-opacity-50 " style={{'backgroundColor':'rgba(var(--d87,255,255,255),1)'}}>
-        <div className="mt-3 text-4xl text-center h-14 pt-2 nav-head">Insta-clone</div>
+        <div className="mt-3 text-4xl text-center h-14 pt-2 nav-head">Imzify</div>
         <form onSubmit={handleSubmit}>
             {(isSignup)?<div className="mt-3 text-center text-3xl font-medium text-gray-800 mb-3 nav-head">Sign up</div>:<div className="mt-3 text-center text-3xl font-medium text-gray-800 mb-3 nav-head">Sign in</div> }
             
